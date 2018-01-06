@@ -1,0 +1,134 @@
+%@ page contentType="text/html; charset=gb2312" language="java"%>
+<%@ page import="java.sql.*,java.util.*,java.io.*"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>查看课表</title>
+<style>
+.in{
+border:0px solid white;
+}
+</style>
+</head>
+<body>
+<h1 align="center">查看课表</h1>
+ <table width="90%" border="1" cellspacing="2" cellpadding="2" bordercolor=#CC0000>
+          <tr align="center">
+			<td>时间</td>
+            <td>星期一</td>
+            <td>星期二</td>
+            <td>星期三</td>
+            <td>星期四</td>
+            <td>星期五</td>
+			<td>星期六</td>
+			<td>星期七</td>
+            </tr>
+			<% 
+             try{ 
+             Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
+                } 
+             catch(ClassNotFoundException e)
+			    { 
+             out.print("数据库驱动程序装入错误"); 
+                } 
+			
+ 
+		for(int j=1;j<6;j++)
+		{
+			if(j==1)
+			{
+%>
+	<tr> 
+			<td align="center">第一二节</td>
+<%			}
+			else if(j==2)
+			{
+%>
+	<tr> 
+			<td align="center">第三四节</td>
+<%			
+			}
+			else if(j==3)
+			{
+%>
+	<tr> 
+			<td align="center">第五六节</td>
+<%			}
+			else if(j==4)
+			{
+%>
+	<tr> 
+			<td align="center">第七八节</td>
+<%			}
+			else if(j==5)
+			{
+%>
+	<tr> 
+			<td align="center">第九十节</td>
+<%			}
+
+		    String url ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ=C:\\db.mdb";//数据库连接
+			Connection con= DriverManager.getConnection(url); 
+			Statement   stmt  = con.createStatement();   
+			
+			String s_UserName = (String)session.getAttribute("UserName");
+			String strSql = "select * from Timetable where Sno='"+s_UserName+"'";
+			ResultSet rs=stmt.executeQuery(strSql);
+            ArrayList group=new ArrayList();
+            String sStr =" ";
+            while(rs.next())
+            {  
+			  group.add(rs.getString("Cno"));
+		    }
+			rs.close();
+			int glen = group.size();
+			
+			for(int k=1;k<8;k++)
+			{
+					String Sk=""+k;
+					String Sj=""+j;
+					int check=0;
+					
+			for (int i=0;group!=null&&i<glen;i++)
+			{   
+            sStr   = group.get(i).toString();
+            String strSql1 = "select * from Course where Cno='"+sStr+"'";
+			ResultSet rs1=stmt.executeQuery(strSql1);
+			
+			while(rs1.next())
+				 {
+				 String S_Cno = rs1.getString("Cno");
+				 String S_Ctime=rs1.getString("Ctime");
+				 String S_Cname=rs1.getString("Cname");
+				 String S_Cplace=rs1.getString("Cplace");
+				 String S_CWeek=rs1.getString("CWeek");
+				 String S_Cperiod=rs1.getString("Cperiod");
+
+						if(S_CWeek.equals(Sk) && S_Ctime.equals(Sj))
+						{
+						check=1;
+%>
+            <td align="center"><%= S_Cname %> <%= S_Cplace %></td><!--在此处添加课表内容-->
+<%					
+						}
+										
+				}
+			rs1.close();
+			}
+			if(check==0)
+			{
+			%>
+            <td align="center">无</td>
+			<%	
+			}
+			}
+%>		
+    </tr>
+<%    			
+		}
+      		  
+%>
+ </table>
+</body>
+</html>
