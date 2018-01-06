@@ -1,0 +1,50 @@
+<%@ page language="java" contentType="text/html; charset=gb2312"
+    pageEncoding="gb2312" import="java.sql.*"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>Insert title here</title>
+</head>
+<body>
+<%
+request.setCharacterEncoding("gb2312");
+String Cno=request.getParameter("Cno");
+String Cname=request.getParameter("Cname");
+String Ctype=request.getParameter("Ctype");
+String Ccode=request.getParameter("Ccode");
+String Cplace=request.getParameter("Cplace");
+String Cweek=request.getParameter("Cweek");
+String Ctime=request.getParameter("Ctime");
+String Cperiod=request.getParameter("Cperiod");
+
+try{ 
+               Class.forName("sun.jdbc.odbc.JdbcOdbcDriver"); 
+                  } 
+              catch(ClassNotFoundException e){ 
+              out.print("数据库驱动程序装入错误"); 
+                  } 
+			
+
+		    String url ="jdbc:odbc:Driver={Microsoft Access Driver (*.mdb)};DBQ=C:\\db.mdb";//数据库连接
+			Connection con= DriverManager.getConnection(url); 
+			Statement   stmt  = con.createStatement();   
+
+
+     
+	  
+     
+String sql="insert into Course(Cno,Cname,Ctype,Ccode,Cplace,Cweek,Ctime,Cperiod) values('"+Cno+"','"+Cname+"','"+Ctype+"','"+Ccode+"','"+Cplace+"','"+Cweek+"','"+Ctime+"','"+Cperiod+"')";
+
+int result=stmt.executeUpdate(sql);
+
+if(result==0)
+	 response.sendRedirect("error.jsp");
+else{ 
+	con.close();
+	response.sendRedirect("course.jsp");
+    //out.println(result);
+}
+%>
+</body>
+</html>
