@@ -1,0 +1,42 @@
+<%@ page language="java" contentType="text/html; charset=gb2312"
+    pageEncoding="gb2312"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+
+<title>login</title>
+
+<link type="text/css" rel="stylesheet" media="all" href="style/login.v1.css" />
+<script type=text/javascript language="javascript">
+	function input_hover(obj, color) {
+		obj.style.border = '1px solid ' + color;
+	}
+	
+	</script>
+
+</head>
+
+<body>
+<div class="login-form-div">
+	<div class="lf-title"><td align="right" >学生选课系统</td></div>
+	<form action="jsp\userlogincheck.jsp" method="post" id="login-form" accept-charset="gb2312" target="_parent" onSubmit="return docheck()">
+		<table border="0" cellspacing="2" cellpadding="2" class="lf-wrapper">
+			<tr>
+				<td class="t">用户名:</td><td align="left"><input type="text" name="UserName" value="" id="login-email" class="lf-input" onMouseOver="input_hover(this, '#0081ff');" onMouseOut="input_hover(this, '#a4a4a4');" onFocus="input_hover(this, '#0081ff');" onBlur="input_hover(this, '#a4a4a4');" tabindex="1"></td>
+			</tr>
+			<tr>
+				<td class="t">密码:</td><td align="left"><input type="password" name="UserPassword" value="" id="login-password" class="lf-input" onMouseOver="input_hover(this, '#0081ff');" onMouseOut="input_hover(this, '#a4a4a4');" onFocus="input_hover(this, '#0081ff');" onBlur="input_hover(this, '#a4a4a4');" tabindex="2"> <a href="jsp/user_reg.jsp">没有账户？</a></td>
+			</tr>
+			  <td width="50%" align="right"  height="25"><input type="radio" name="Type" value="0" checked>学生&nbsp;<input type="radio" name="Type" value="1">管理员</td>
+			<!-- <tr>
+				<td colspan="2">记住我的帐号</td>
+			</tr> -->
+		</table>
+		
+		<p><input type="image" src="style/button.gif" tabindex="3"></p>
+	</form>
+</div>
+
+</body>
+</html>
